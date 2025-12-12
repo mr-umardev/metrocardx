@@ -1,10 +1,9 @@
 pipeline {
     agent any
 
-    // Will set BUILD_TS inside Prepare stage
+    // Only keep LOG_DIR here. BUILD_TS will be computed later.
     environment {
         LOG_DIR = "C:\\tmp\\metrocardx-build"
-        BUILD_TS = ""
     }
 
     options {
@@ -16,13 +15,13 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    // Generate timestamp correctly
+                    // Generate timestamp ONCE per build
                     env.BUILD_TS = new Date().format("yyyyMMdd-HHmmss")
 
                     echo "Generated Timestamp: ${env.BUILD_TS}"
                     echo "Log Directory: ${env.LOG_DIR}"
 
-                    // Create log directory if missing
+                    // Create log directory on Windows
                     bat """
                     if not exist "${env.LOG_DIR}" mkdir "${env.LOG_DIR}"
                     """
