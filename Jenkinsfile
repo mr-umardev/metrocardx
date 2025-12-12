@@ -8,11 +8,10 @@ pipeline {
     LOG_DIR = ''
   }
 
-  options {
-    // keep build logs for some time (optional)
+ options {
     timestamps()
-    ansiColor('xterm')
-  }
+}
+
 
   stages {
 
