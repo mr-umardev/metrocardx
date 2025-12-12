@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     environment {
+        // Placeholder values (will be overwritten in Prepare stage)
         BUILD_TS = ""
-        LOG_DIR = ""
+        LOG_DIR  = "C:\\tmp\\metrocardx-build"
     }
 
     options {
@@ -18,15 +19,13 @@ pipeline {
                     // Create timestamp
                     env.BUILD_TS = new Date().format("yyyyMMdd-HHmmss")
 
-                    // Set Windows log directory
-                    env.LOG_DIR = "C:\\tmp\\metrocardx-build"
+                    echo "Generated Timestamp: ${env.BUILD_TS}"
+                    echo "Log Directory: ${env.LOG_DIR}"
 
-                    // Create folder if it does not exist
+                    // Create log directory on Windows
                     bat """
                     if not exist "${env.LOG_DIR}" mkdir "${env.LOG_DIR}"
                     """
-                    echo "Timestamp = ${env.BUILD_TS}"
-                    echo "Log Directory = ${env.LOG_DIR}"
                 }
             }
         }
@@ -74,12 +73,11 @@ pipeline {
                 """
             }
         }
-
     }
 
     post {
         always {
-            echo "Build finished."
+            echo "Build finished. Timestamp = ${env.BUILD_TS}"
         }
         failure {
             echo "Build failed!"
