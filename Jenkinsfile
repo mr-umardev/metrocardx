@@ -1,9 +1,10 @@
 pipeline {
     agent any
 
+    // Will set BUILD_TS inside Prepare stage
     environment {
-        LOG_DIR = "C:\\tmp\\metrocardx-build"   // Windows equivalent of /tmp
-        BUILD_TS = ""                           // Will be set in Prepare stage
+        LOG_DIR = "C:\\tmp\\metrocardx-build"
+        BUILD_TS = ""
     }
 
     options {
